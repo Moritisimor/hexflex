@@ -49,10 +49,8 @@ fn main() -> anyhow::Result<()> {
 
         if is_probably_printable(byte as char) {
             print!("| ({})", (byte as char).cyan())
-        } else {
-            if let Some(kind) = is_special_control(byte) {
-                print!("| [{}]", kind.cyan());
-            }
+        } else if let Some(kind) = is_special_control(byte) {
+            print!("| [{}]", kind.cyan());
         }
 
         println!();
