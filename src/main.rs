@@ -11,6 +11,20 @@ fn is_probably_printable(c: char) -> bool {
     !c.is_control() && !c.is_whitespace()
 }
 
+/*
+ * Weird name, but what this function does is detect whether a character
+ * is something like a tab, newline, carriage return etc.
+*/
+fn is_special_control<'a>(c: u8) -> Option<&'a str> {
+    match c {
+        0x20 => Some("SPACE"),
+        0xa => Some("LINEFEED"),
+        0xd => Some("CARRIAGE RETURN"),
+        0x9 => Some("TAB"),
+        _ => None,
+    }
+}
+
 fn main() -> anyhow::Result<()> {
     let file_name = match std::env::args().nth(1) {
         Some(f) => f,
@@ -34,7 +48,11 @@ fn main() -> anyhow::Result<()> {
         );
 
         if is_probably_printable(byte as char) {
-            print!("| ({})", byte as char)
+            print!("| ({})", (byte as char).cyan())
+        } else {
+            if let Some(kind) = is_special_control(byte) {
+                print!("| [{}]", kind.cyan());
+            }
         }
 
         println!();
