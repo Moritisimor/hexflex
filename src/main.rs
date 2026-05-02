@@ -10,7 +10,7 @@ fn is_elf(data: &[u8]) -> bool {
 fn main() -> anyhow::Result<()> {
     let file_name = match std::env::args().nth(1) {
         Some(f) => f,
-        None => bail!("".red())
+        None => bail!("".red()),
     };
 
     let data = fs::read(file_name)?;
@@ -21,7 +21,13 @@ fn main() -> anyhow::Result<()> {
     let mut idx = 0;
     for byte in data {
         idx += 1;
-        println!("{}:\t{:#010b}\t|\t{:#x}\t|\t{}", idx.blue(), byte.magenta(), byte.green(), byte.yellow());
+        println!(
+            "{}:\t{:#010b}\t|\t{:#x}\t|\t{}",
+            idx.blue(),
+            byte.magenta(),
+            byte.green(),
+            byte.yellow()
+        );
     }
 
     Ok(())
