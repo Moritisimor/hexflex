@@ -7,6 +7,10 @@ fn is_elf(data: &[u8]) -> bool {
     data.starts_with(&[0x7f, 0x45, 0x4c, 0x46])
 }
 
+fn is_probably_printable(c: char) -> bool {
+    !c.is_control() && !c.is_whitespace()
+}
+
 fn main() -> anyhow::Result<()> {
     let file_name = match std::env::args().nth(1) {
         Some(f) => f,
@@ -21,13 +25,19 @@ fn main() -> anyhow::Result<()> {
     let mut idx = 0;
     for byte in data {
         idx += 1;
-        println!(
-            "{}:\t{:#010b}\t|\t{:#x}\t|\t{}",
+        print!(
+            "{}:\t{:#010b}\t|\t{:#x}\t|\t{}\t",
             idx.blue(),
             byte.magenta(),
             byte.green(),
             byte.yellow()
         );
+
+        if is_probably_printable(byte as char) {
+            print!("| ({})", byte as char)
+        }
+
+        println!();
     }
 
     Ok(())
