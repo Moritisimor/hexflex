@@ -1,27 +1,27 @@
-use std::{fs, io};
+use std::fs;
 
-fn make_error(msg: &str) -> io::Error {
-    io::Error::new(io::ErrorKind::Other, msg)
-}
+use anyhow::bail;
+use owo_colors::OwoColorize;
 
 fn is_elf(data: &[u8]) -> bool {
     data.starts_with(&[0x7f, 0x45, 0x4c, 0x46])
 }
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let file_name = std::env::args()
-        .nth(1)
-        .ok_or(make_error("Please choose a file name"))?;
+fn main() -> anyhow::Result<()> {
+    let file_name = match std::env::args().nth(1) {
+        Some(f) => f,
+        None => bail!("".red())
+    };
 
     let data = fs::read(file_name)?;
     if is_elf(&data) {
-        println!("This file is probably elf.")
+        println!("{}", "This file is probably ELF!".blue())
     }
-    
+
     let mut idx = 0;
     for byte in data {
         idx += 1;
-        println!("{idx}: {:#010b} | {:#x} | {}", byte, byte, byte); 
+        println!("{}:\t{:#010b}\t|\t{:#x}\t|\t{}", idx.blue(), byte.magenta(), byte.green(), byte.yellow());
     }
 
     Ok(())
