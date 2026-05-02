@@ -13,12 +13,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut idx = 0;
     for byte in data {
         idx += 1;
-        print!("{idx}: {:#010b} | {:#x} | {}", byte, byte, byte);
-        if byte.is_ascii() {
-            print!(" ({})", byte as char)
-        }
-
-        println!()
+        println!("{idx}: {:#010b} | {:#x} | {}", byte, byte, byte); 
     }
 
     Ok(())
