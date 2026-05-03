@@ -19,21 +19,7 @@ fn main() -> anyhow::Result<()> {
     let mut idx = 0;
     for byte in data {
         idx += 1;
-        print!(
-            "{}:\t{:#010b}\t|\t{:#x}\t|\t{}\t",
-            idx.blue(),
-            byte.magenta(),
-            byte.green(),
-            byte.yellow()
-        );
-
-        if helpers::is_probably_printable(byte as char) {
-            print!("| ({})", (byte as char).cyan())
-        } else if let Some(kind) = helpers::is_special_control(byte) {
-            print!("| [{}]", kind.cyan());
-        }
-
-        println!();
+        helpers::print_line(byte, idx);
     }
 
     Ok(())
