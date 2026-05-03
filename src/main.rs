@@ -8,7 +8,7 @@ use owo_colors::OwoColorize;
 fn main() -> anyhow::Result<()> {
     let file_name = match std::env::args().nth(1) {
         Some(f) => f,
-        None => bail!("".red()),
+        None => bail!("Please select a file!".red()),
     };
 
     let data = fs::read(file_name)?;
