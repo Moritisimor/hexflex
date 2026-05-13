@@ -24,7 +24,7 @@ pub fn is_special_control<'a>(c: u8) -> Option<&'a str> {
 
 pub fn print_line(byte: u8, idx: i64) {
     print!(
-        "{}:\t{:#010b}\t|\t{:#x}\t|\t{}\t",
+        "{:#010x}:\t{:#010b}\t|\t{:#x}\t|\t{}\t",
         idx.blue(),
         byte.magenta(),
         byte.green(),
@@ -32,11 +32,28 @@ pub fn print_line(byte: u8, idx: i64) {
     );
 
     if is_probably_printable(byte as char) {
-        print!("| ({})", (byte as char).cyan())
+        println!("| ({})", (byte as char).cyan())
     } else if let Some(kind) = is_special_control(byte) {
-        print!("| [{}]", kind.cyan());
+        println!("| [{}]", kind.cyan());
+    }
+}
+
+pub fn format_line(byte: u8, idx: i64) -> String {
+    let mut buf = String::new();
+
+    buf += &format!(
+        "{:#010x}:\t{:#010b}\t|\t{:#04x}\t|\t{}\t",
+        idx,
+        byte,
+        byte,
+        byte as i8
+    );
+
+    if is_probably_printable(byte as char) {
+        buf += &format!("| ({})", (byte as char))
+    } else if let Some(kind) = is_special_control(byte) {
+        buf += &format!("| [{}]", kind)
     }
 
-    println!();
-
+    buf
 }

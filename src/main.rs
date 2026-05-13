@@ -1,25 +1,41 @@
 mod helpers;
+mod flags;
 
 use std::fs;
 
-use anyhow::bail;
+use clap::Parser;
 use owo_colors::OwoColorize;
 
-fn main() -> anyhow::Result<()> {
-    let file_name = match std::env::args().nth(1) {
-        Some(f) => f,
-        None => bail!("Please select a file!"),
-    };
+use crate::flags::Flags;
 
-    let data = fs::read(file_name)?;
+fn main() -> anyhow::Result<()> {
+    let flags = Flags::parse();
+
+    let data = fs::read(flags.input_file)?;
     if helpers::is_elf(&data) {
         println!("{}", "This file is probably ELF!".blue())
     }
 
     let mut idx = 0;
-    for byte in data {
-        idx += 1;
-        helpers::print_line(byte, idx);
+    match flags.save {
+        Some(file_name) => {
+            let mut buf = String::new();
+            for byte in data {
+                idx += 1;
+                buf += &helpers::format_line(byte, idx);
+                buf += "\n"
+            }
+            
+            std::fs::write(&file_name, buf)?;
+            println!("{} {}", "Successfully saved content to:".green(), &file_name.magenta());
+        }
+        
+        None => {
+            for byte in data {
+                idx += 1;
+                helpers::print_line(byte, idx);
+            }
+        }
     }
 
     Ok(())
