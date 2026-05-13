@@ -38,10 +38,10 @@ pub fn print_line(byte: u8, idx: i64) {
     }
 }
 
-pub fn format_line(byte: u8, idx: i64) -> String {
-    let mut buf = String::new();
-
-    buf += &format!(
+pub fn format_line(byte: u8, idx: i64, buf: &mut String) {
+    buf.clear();
+    
+    *buf += &format!(
         "{:#010x}:\t{:#010b}\t|\t{:#04x}\t|\t{}\t",
         idx,
         byte,
@@ -50,10 +50,10 @@ pub fn format_line(byte: u8, idx: i64) -> String {
     );
 
     if is_probably_printable(byte as char) {
-        buf += &format!("| ({})", (byte as char))
+        *buf += &format!("| ({})", (byte as char));
     } else if let Some(kind) = is_special_control(byte) {
-        buf += &format!("| [{}]", kind)
-    }
+        *buf += &format!("| [{}]", kind);
+    };
 
-    buf
+    *buf += "\n";
 }

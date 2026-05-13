@@ -19,14 +19,16 @@ fn main() -> anyhow::Result<()> {
     let mut idx = 0;
     match flags.save {
         Some(file_name) => {
-            let mut buf = String::new();
+            let mut file_buf = String::new();
+            let mut line_buf = String::new();
+            
             for byte in data {
                 idx += 1;
-                buf += &helpers::format_line(byte, idx);
-                buf += "\n"
+                helpers::format_line(byte, idx, &mut line_buf);
+                file_buf += &line_buf;
             }
             
-            std::fs::write(&file_name, buf)?;
+            std::fs::write(&file_name, file_buf)?;
             println!("{} {}", "Successfully saved content to:".green(), &file_name.magenta());
         }
         
