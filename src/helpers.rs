@@ -32,21 +32,20 @@ pub fn print_line(byte: u8, idx: i64) {
     );
 
     if is_probably_printable(byte as char) {
-        println!("| ({})", (byte as char).cyan())
+        print!("| ({})", (byte as char).cyan())
     } else if let Some(kind) = is_special_control(byte) {
-        println!("| [{}]", kind.cyan());
+        print!("| [{}]", kind.cyan());
     }
+
+    println!()
 }
 
 pub fn format_line(byte: u8, idx: i64, buf: &mut String) {
     buf.clear();
-    
+
     *buf += &format!(
         "{:#010x}:\t{:#010b}\t|\t{:#04x}\t|\t{}\t",
-        idx,
-        byte,
-        byte,
-        byte
+        idx, byte, byte, byte
     );
 
     if is_probably_printable(byte as char) {
