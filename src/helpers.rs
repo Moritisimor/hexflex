@@ -46,7 +46,7 @@ pub fn format_line(byte: u8, idx: i64) -> String {
         idx,
         byte,
         byte,
-        byte as i8
+        byte
     );
 
     if is_probably_printable(byte as char) {
