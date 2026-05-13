@@ -17,7 +17,7 @@ fn main() -> anyhow::Result<()> {
     }
 
     let mut idx = 0;
-    match flags.save {
+    match flags.output_file {
         Some(file_name) => {
             let mut file_buf = String::new();
             let mut line_buf = String::new();
