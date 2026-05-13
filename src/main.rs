@@ -23,9 +23,9 @@ fn main() -> anyhow::Result<()> {
             let mut line_buf = String::new();
             
             for byte in data {
-                idx += 1;
                 helpers::format_line(byte, idx, &mut line_buf);
                 file_buf += &line_buf;
+                idx += 1;
             }
             
             std::fs::write(&file_name, file_buf)?;
@@ -34,8 +34,8 @@ fn main() -> anyhow::Result<()> {
         
         None => {
             for byte in data {
-                idx += 1;
                 helpers::print_line(byte, idx);
+                idx += 1;
             }
         }
     }
