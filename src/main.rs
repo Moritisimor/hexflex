@@ -17,28 +17,27 @@ fn main() -> anyhow::Result<()> {
     }
 
     let mut idx = 0;
-    match flags.output_file {
-        Some(file_name) => {
-            let mut file_buf = String::new();
-            let mut line_buf = String::new();
-            
-            for byte in data {
-                helpers::format_line(byte, idx, &mut line_buf);
-                file_buf += &line_buf;
-                idx += 1;
-            }
-            
-            std::fs::write(&file_name, file_buf)?;
-            println!("{} {}", "Successfully saved content to:".green(), &file_name.magenta());
+
+    if let Some(file_name) = flags.output_file {
+        let mut file_buf = String::new();
+        let mut line_buf = String::new();
+        
+        for byte in data {
+            helpers::format_line(byte, idx, &mut line_buf);
+            file_buf += &line_buf;
+            idx += 1;
         }
         
-        None => {
-            for byte in data {
-                helpers::print_line(byte, idx);
-                idx += 1;
-            }
-        }
+        std::fs::write(&file_name, file_buf)?;
+        println!("{} {}", "Successfully saved content to:".green(), &file_name.magenta());
+        
+        return Ok(())
     }
-
+    
+    for byte in data {
+        helpers::print_line(byte, idx);
+        idx += 1; 
+    }
+    
     Ok(())
 }
