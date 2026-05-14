@@ -13,8 +13,15 @@ use crate::flags::Flags;
 
 fn main() -> anyhow::Result<()> {
     let flags = Flags::parse();
-
     let data = fs::read(&flags.input_file)?;
+
+    println!(
+        "{} {} {}",
+        "Read".blue(),
+        data.len().green(),
+        "Bytes".blue()
+    );
+    
     if helpers::is_elf(&data) {
         println!("{}", "This file is probably ELF!".blue())
     }
