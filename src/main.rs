@@ -1,6 +1,6 @@
+mod commands;
 mod flags;
 mod helpers;
-mod commands;
 
 use std::fs;
 
@@ -61,7 +61,7 @@ fn main() -> anyhow::Result<()> {
 
                 continue;
             }
-            
+
             Err(ReadlineError::Eof) => break,
             Err(e) => bail!("{e}"),
 
@@ -76,7 +76,7 @@ fn main() -> anyhow::Result<()> {
         match fields[0] {
             "exit" => break,
             "read" => commands::read_byte(&data, &fields),
-            _ => println!("{} {}", "Unknown command:".red(), fields[0].blue())
+            _ => println!("{} {}", "Unknown command:".red(), fields[0].blue()),
         }
     }
 
