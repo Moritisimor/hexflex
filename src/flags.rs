@@ -6,5 +6,5 @@ pub struct Flags {
     pub output_file: Option<String>,
 
     #[arg(short, long)]
-    pub input_file: String
+    pub input_file: String,
 }

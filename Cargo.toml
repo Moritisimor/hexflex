@@ -14,3 +14,4 @@ panic = "abort"
 anyhow = "1.0.102"
 clap = { version = "4.5.53", features = ["derive"] }
 owo-colors = "4.3.0"
+rustyline = "18.0.0"
