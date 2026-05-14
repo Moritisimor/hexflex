@@ -22,7 +22,7 @@ pub fn is_special_control<'a>(c: u8) -> Option<&'a str> {
     }
 }
 
-pub fn print_line(byte: u8, idx: i64) {
+pub fn print_line(byte: u8, idx: usize) {
     print!(
         "{:#010x}:\t{:#010b}\t|\t{:#x}\t|\t{}\t",
         idx.blue(),
@@ -40,7 +40,7 @@ pub fn print_line(byte: u8, idx: i64) {
     println!()
 }
 
-pub fn format_line(byte: u8, idx: i64, buf: &mut String) {
+pub fn format_line(byte: u8, idx: usize, buf: &mut String) {
     buf.clear();
 
     *buf += &format!(
