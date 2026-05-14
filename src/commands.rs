@@ -23,33 +23,34 @@ pub fn read_byte(buf: &Vec<u8>, args: &Vec<&str>) {
         }
     };
 
-    match args.get(2) {
-        None => match buf.get(start_idx) {
-            Some(b) => helpers::print_line(*b, start_idx),
-            None => println!("{}", "No such index in buffer".red()),
-        },
-
-        Some(i) => match helpers::usize_of_str(i) {
-            Some(end_idx) => {
-                (start_idx..=end_idx).for_each(|idx| match buf.get(idx) {
-                    Some(byte) => helpers::print_line(*byte, idx),
-                    None => {
-                        println!(
-                            "[{:#010x}] {} {}",
-                            idx.green(),
-                            "Error while printing range of bytes:".red(),
-                            "No such index in buffer".red()
-                        );
-
-                        return;
-                    }
-                });
-            }
-
+    if let Some(i) = args.get(2) {
+        let end_idx = match helpers::usize_of_str(i) {
+            Some(x) => x,
             None => {
                 println!("{}", "End-index must be a valid non-negative integer".red());
-                return;
+                return
             }
-        },
-    };
+        };
+
+        (start_idx..=end_idx).for_each(|idx| match buf.get(idx) {
+            Some(byte) => helpers::print_line(*byte, idx),
+            None => {
+                println!(
+                    "[{:#010x}] {} {}",
+                    idx.green(),
+                    "Error while printing range of bytes:".red(),
+                    "No such index in buffer".red()
+                );
+
+                return
+            }
+        });
+        
+        return
+    }
+
+    match buf.get(start_idx) {
+        Some(b) => helpers::print_line(*b, start_idx),
+        None => println!("{}", "No such index in buffer".red()),
+    }
 }
