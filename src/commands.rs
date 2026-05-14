@@ -35,9 +35,10 @@ pub fn read_byte(buf: &Vec<u8>, args: &Vec<&str>) {
                     Some(byte) => helpers::print_line(*byte, idx),
                     None => {
                         println!(
-                            "{} {}",
+                            "[{:#010x}] {} {}",
+                            idx.green(),
                             "Error while printing range of bytes:".red(),
-                            "No such index in buffer"
+                            "No such index in buffer".red()
                         );
 
                         return;
