@@ -74,8 +74,8 @@ fn main() -> anyhow::Result<()> {
         }
 
         match fields[0] {
-            "exit" => break,
-            "read" => commands::read_byte(&data, &fields),
+            "exit" | "q" => break,
+            "read" | "r" => commands::read_byte(&data, &fields),
             _ => println!("{} {}", "Unknown command:".red(), fields[0].blue()),
         }
     }
