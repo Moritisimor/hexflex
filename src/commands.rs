@@ -4,9 +4,9 @@ use owo_colors::OwoColorize;
 
 pub fn read_byte(buf: &Vec<u8>, args: &Vec<&str>) {
     let start_idx = match args.get(1) {
-        Some(i) => match i.parse::<usize>() {
-            Ok(n) => n,
-            Err(_) => {
+        Some(i) => match helpers::usize_of_str(i) {
+            Some(n) => n,
+            None => {
                 println!("{}", "Argument to this command must be a number.".red());
                 return;
             }
@@ -24,13 +24,13 @@ pub fn read_byte(buf: &Vec<u8>, args: &Vec<&str>) {
     };
 
     match args.get(2) {
-        None => match buf.get(start_idx as usize) {
+        None => match buf.get(start_idx) {
             Some(b) => helpers::print_line(*b, start_idx),
             None => println!("{}", "No such index in buffer".red()),
         },
 
-        Some(i) => match i.parse::<usize>() {
-            Ok(end_idx) => {
+        Some(i) => match helpers::usize_of_str(i) {
+            Some(end_idx) => {
                 for idx in start_idx..=end_idx {
                     match buf.get(idx) {
                         Some(byte) => helpers::print_line(*byte, idx),
@@ -47,7 +47,7 @@ pub fn read_byte(buf: &Vec<u8>, args: &Vec<&str>) {
                 }
             }
 
-            Err(_) => {
+            None => {
                 println!("{}", "End-index must be a valid non-negative integer".red());
                 return;
             }

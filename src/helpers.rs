@@ -1,5 +1,23 @@
 use owo_colors::OwoColorize;
 
+// Makes a usize of a string, but also allows for hexadecimal representations
+pub fn usize_of_str(parsee: &str) -> Option<usize> {
+    match parsee.parse::<usize>() {
+        Ok(i) => Some(i),
+        Err(_) => {
+            let actual = match parsee.strip_prefix("0x") {
+                Some(a) => a,
+                None => parsee,
+            };
+
+            match usize::from_str_radix(actual, 16) {
+                Ok(i) => Some(i),
+                Err(_) => None,
+            }
+        }
+    }
+}
+
 pub fn is_elf(data: &[u8]) -> bool {
     data.starts_with(&[0x7f, 0x45, 0x4c, 0x46])
 }
