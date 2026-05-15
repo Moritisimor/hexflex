@@ -13,7 +13,7 @@ use crate::flags::Flags;
 
 fn main() -> anyhow::Result<()> {
     let flags = Flags::parse();
-    let data = fs::read(&flags.input_file)?;
+    let mut data = fs::read(&flags.input_file)?;
 
     println!(
         "{} {} {}",
@@ -21,7 +21,7 @@ fn main() -> anyhow::Result<()> {
         data.len().green(),
         "Bytes".blue()
     );
-    
+
     if helpers::is_elf(&data) {
         println!("{}", "This file is probably ELF!".blue())
     }
@@ -83,6 +83,7 @@ fn main() -> anyhow::Result<()> {
         match fields[0] {
             "quit" | "exit" | "q" => break,
             "read" | "r" => commands::read_byte(&data, &fields),
+            "edit" | "e" => commands::edit_byte(&mut data, &fields),
             _ => println!("{} {}", "Unknown command:".red(), fields[0].blue()),
         }
     }

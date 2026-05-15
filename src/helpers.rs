@@ -1,6 +1,6 @@
 use owo_colors::OwoColorize;
 
-/* 
+/*
  * Makes a usize of a string, but also allows
  * for hexadecimal and binary representations
 */
@@ -15,13 +15,13 @@ pub fn usize_of_str(parsee: &str) -> Option<usize> {
     if let Some(x) = parsee.strip_prefix("0b") {
         match usize::from_str_radix(x, 2) {
             Ok(i) => return Some(i),
-            Err(_) => return None
+            Err(_) => return None,
         }
     };
-    
+
     match parsee.parse::<usize>() {
         Ok(i) => Some(i),
-        Err(_) => None
+        Err(_) => None,
     }
 }
 
