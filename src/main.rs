@@ -84,6 +84,7 @@ fn main() -> anyhow::Result<()> {
             "quit" | "exit" | "q" => break,
             "read" | "r" => commands::read_byte(&data, &fields),
             "edit" | "e" => commands::edit_byte(&mut data, &fields),
+            "save" | "s" => commands::save(&data, &flags.input_file),
             _ => println!("{} {}", "Unknown command:".red(), fields[0].blue()),
         }
     }
