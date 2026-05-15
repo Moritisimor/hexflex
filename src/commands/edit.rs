@@ -71,3 +71,33 @@ pub fn edit_byte(buf: &mut Vec<u8>, args: &Vec<&str>) {
         }
     }
 }
+
+pub fn nullify(buf: &mut Vec<u8>, args: &Vec<&str>) {
+    let idx = match args.get(1) {
+        Some(i) => match helpers::usize_of_str(i) {
+            Some(x) => x,
+            None => {
+                println!("{}", "Please only enter valid non-negative integers".red());
+                return;
+            }
+        },
+
+        None => {
+            println!(
+                "{} {}",
+                "Invalid amount of arguments,".red(),
+                "Usage: nullify <index:usize>"
+            );
+
+            return;
+        }
+    };
+
+    if let None = buf.get(idx) {
+        println!("{}", "No such index in buffer".red());
+        return;
+    }
+
+    buf[idx] = 0;
+    println!("{} {:#010x}", "Successfully nullified".green(), idx.blue());
+}

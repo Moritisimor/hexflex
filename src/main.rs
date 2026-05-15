@@ -87,6 +87,7 @@ fn main() -> anyhow::Result<()> {
             "save" | "s" => commands::save::save(&data, &fields, &flags.input_file),
             "find" | "f" => commands::find::find(&data, &fields),
             "clear" | "c" => println!("\x1b[H\x1b[2J\x1b[3J"),
+            "nullify" | "n" => commands::edit::nullify(&mut data, &fields),
             _ => println!("{} {}", "Unknown command:".red(), fields[0].blue()),
         }
     }

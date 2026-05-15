@@ -20,12 +20,12 @@ pub fn find(buf: &Vec<u8>, args: &Vec<&str>) {
         if *b == search_bytes[0] {
             if buf[idx..].starts_with(&search_bytes) {
                 println!(
-                    "{} {:#010x} - {:#010x}", 
-                    "Match found at:".green(), 
+                    "{} {:#010x} - {:#010x}",
+                    "Match found at:".green(),
                     idx.blue(),
                     (idx + search_bytes.len() - 1).blue()
                 );
-                
+
                 matches += 1;
             }
         }
