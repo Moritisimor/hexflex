@@ -1,6 +1,6 @@
-mod commands;
-mod flags;
-mod helpers;
+pub mod commands;
+pub mod flags;
+pub mod helpers;
 
 use std::fs;
 
@@ -82,9 +82,9 @@ fn main() -> anyhow::Result<()> {
 
         match fields[0] {
             "quit" | "exit" | "q" => break,
-            "read" | "r" => commands::read_byte(&data, &fields),
-            "edit" | "e" => commands::edit_byte(&mut data, &fields),
-            "save" | "s" => commands::save(&data, &flags.input_file),
+            "read" | "r" => commands::read::read_byte(&data, &fields),
+            "edit" | "e" => commands::edit::edit_byte(&mut data, &fields),
+            "save" | "s" => commands::save::save(&data, &flags.input_file),
             "clear" | "c" => println!("\x1b[H\x1b[2J\x1b[3J"),
             _ => println!("{} {}", "Unknown command:".red(), fields[0].blue()),
         }
