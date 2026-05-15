@@ -59,23 +59,15 @@ pub fn edit_byte(buf: &mut Vec<u8>, args: &Vec<&str>) {
         };
 
         match helpers::usize_of_str(input.trim()) {
+            None => println!("{}", "Please only enter valid non-negative integers".red()),
             Some(i) => match i <= 255 {
+                false => println!("{}", "This number does not fit into a byte.".red()),
                 true => {
                     let byte = i as u8;
                     buf[idx] = byte;
                     break;
                 }
-
-                false => {
-                    println!("{}", "This number does not fit into 8 bits.".red());
-                    continue;
-                }
             },
-
-            None => {
-                println!("Please only enter valid non-negative integers");
-                continue;
-            }
         }
     }
 }
