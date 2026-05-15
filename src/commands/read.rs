@@ -32,19 +32,21 @@ pub fn read_byte(buf: &Vec<u8>, args: &Vec<&str>) {
             }
         };
 
-        (start_idx..=end_idx).for_each(|idx| match buf.get(idx) {
-            Some(byte) => helpers::print_line(*byte, idx),
-            None => {
-                println!(
-                    "[{:#010x}] {} {}",
-                    idx.green(),
-                    "Error while printing range of bytes:".red(),
-                    "No such index in buffer".red()
-                );
+        for idx in start_idx..=end_idx {
+            match buf.get(idx) {
+                Some(byte) => helpers::print_line(*byte, idx),
+                None => {
+                    println!(
+                        "[{:#010x}] {} {}",
+                        idx.green(),
+                        "Error while printing range of bytes:".red(),
+                        "No such index in buffer".red()
+                    );
 
-                return;
+                    return;
+                }
             }
-        });
+        }
 
         return;
     }
