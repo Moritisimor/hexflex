@@ -15,7 +15,7 @@ pub fn edit_byte(buf: &mut Vec<u8>, args: &Vec<&str>) {
         None => {
             println!(
                 "{}\n{}",
-                "Invalid ".red(),
+                "Invalid amount of arguments.".red(),
                 "Usage: edit <index:usize>".green()
             );
 
