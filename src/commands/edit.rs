@@ -41,7 +41,7 @@ pub fn edit_byte(buf: &mut Vec<u8>, args: &Vec<&str>) {
 
     loop {
         let input = match rl.readline_with_initial(
-            &format!("{} {} {} ", "Edit".green(), idx.blue(), ">".green()),
+            &format!("{} {:#010x} {} ", "Edit".green(), idx.blue(), ">".green()),
             (&format!("{:#004x}", val), ""),
         ) {
             Ok(i) => i,
