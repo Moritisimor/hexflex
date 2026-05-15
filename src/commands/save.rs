@@ -3,9 +3,9 @@ use owo_colors::OwoColorize;
 pub fn save(buf: &Vec<u8>, args: &Vec<&str>, fallback: &str) {
     let path = match args.get(1) {
         Some(i) => *i,
-        None => fallback
+        None => fallback,
     };
-    
+
     match std::fs::write(path, buf) {
         Ok(_) => println!(
             "{} '{}'",
