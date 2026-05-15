@@ -85,6 +85,7 @@ fn main() -> anyhow::Result<()> {
             "read" | "r" => commands::read_byte(&data, &fields),
             "edit" | "e" => commands::edit_byte(&mut data, &fields),
             "save" | "s" => commands::save(&data, &flags.input_file),
+            "clear" | "c" => println!("\x1b[H\x1b[2J\x1b[3J"),
             _ => println!("{} {}", "Unknown command:".red(), fields[0].blue()),
         }
     }
