@@ -61,7 +61,7 @@ Note that when a command expects a number as an argument, you can either type it
 
 Also note that hex numbers require a `0x` prefix, and binary numbers require a `0b` prefix.
 
-#### `Read`
+#### Read
 To read the entire file at once, omit all arguments.
 
 Depending on the size of the file, this may take a while though.
