@@ -125,6 +125,7 @@ It will treat the input as a list of characters, casting them to bytes.
 #### Find Bytes
 ```bash
 [input_file] HexFlex >> fb 0x48 0x65 0x6c 0x6c 0x6f
+Searching...
 Match found at: 0x00002004 - 0x00002008
 1 Match!
 ```
