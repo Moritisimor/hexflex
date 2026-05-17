@@ -6,6 +6,11 @@ HexFlex is a CLI-Editor, but not for text. Instead, it reads and manipulates byt
 
 Using it feels very similar to one of my older projects, [Neo-Ed](https://github.com/Moritisimor/Neo-Ed).
 
+## Contributing
+Contributions are always more than welcome.
+
+Whether these are bug-fixes or cleaning up code, I am always more than grateful.
+
 ## How do I compile it?
 
 ### What do I need?
@@ -105,9 +110,9 @@ Successfully nullified 0x0000000a
 
 This simply sets the byte to `0x0`.
 
-#### Find
+#### Find String
 ```bash
-[input_file] HexFlex >> f Hello
+[input_file] HexFlex >> fs Hello
 Searching...
 Match found at: 0x00002004 - 0x00002008
 1 Match!
@@ -115,11 +120,18 @@ Match found at: 0x00002004 - 0x00002008
 
 This command will search for a given byte sequence.
 
-As of right now, it only supports ASCII, though I do plan on adding support for sequences like this:
+It will treat the input as a list of characters, casting them to bytes.
 
+#### Find Bytes
 ```bash
-[input_file] HexFlex >> f 0x48 0x65 0x6c 0x6c 0x6f
+[input_file] HexFlex >> fb 0x48 0x65 0x6c 0x6c 0x6f
+Match found at: 0x00002004 - 0x00002008
+1 Match!
 ```
+
+This command will also search for a given byte sequence.
+
+It will treat the input as a list of bytes, trying to convert each entry to a byte.
 
 #### Save
 You can simply save the buffer to the original file by omitting all arguments.

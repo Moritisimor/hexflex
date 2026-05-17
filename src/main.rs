@@ -52,7 +52,7 @@ fn main() -> anyhow::Result<()> {
     if rl.load_history(&hist_file_path).is_err() {
         println!("{}", "No histfile yet.".yellow());
     }
-    
+
     let prompt = format!(
         "{}{}{} {} {} ",
         "[".blue(),
@@ -91,9 +91,10 @@ fn main() -> anyhow::Result<()> {
             "read" | "r" => commands::read::read_byte(&data, &fields),
             "edit" | "e" => commands::edit::edit_byte(&mut data, &fields),
             "save" | "s" => commands::save::save(&data, &fields, &flags.input_file),
-            "find" | "f" => commands::find::find(&data, &fields),
             "clear" | "c" => println!("\x1b[H\x1b[2J\x1b[3J"),
             "nullify" | "n" => commands::edit::nullify(&mut data, &fields),
+            "findbytes" | "fb" => commands::find::find_bytes(&data, &fields),
+            "findstring" | "fs" => commands::find::find_string(&data, &fields),
             _ => println!("{} {}", "Unknown command:".red(), fields[0].blue()),
         }
     }
