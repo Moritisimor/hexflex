@@ -1,4 +1,4 @@
 pub mod conversion;
-pub mod metadata;
+pub mod info;
 pub mod history;
 pub mod lines;

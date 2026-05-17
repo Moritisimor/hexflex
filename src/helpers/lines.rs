@@ -10,9 +10,9 @@ pub fn print_line(byte: u8, idx: usize) {
         byte.yellow()
     );
 
-    if helpers::metadata::is_probably_printable(byte as char) {
+    if helpers::info::is_probably_printable(byte as char) {
         print!("| ({})", (byte as char).cyan())
-    } else if let Some(kind) = helpers::metadata::is_special_control(byte) {
+    } else if let Some(kind) = helpers::info::is_special_control(byte) {
         print!("| [{}]", kind.cyan());
     }
 
@@ -27,9 +27,9 @@ pub fn format_line(byte: u8, idx: usize, buf: &mut String) {
         idx, byte, byte, byte
     );
 
-    if helpers::metadata::is_probably_printable(byte as char) {
+    if helpers::info::is_probably_printable(byte as char) {
         *buf += &format!("| ({})", (byte as char));
-    } else if let Some(kind) = helpers::metadata::is_special_control(byte) {
+    } else if let Some(kind) = helpers::info::is_special_control(byte) {
         *buf += &format!("| [{}]", kind);
     };
 

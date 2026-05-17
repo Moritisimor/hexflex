@@ -22,7 +22,7 @@ fn main() -> anyhow::Result<()> {
         "Bytes".blue()
     );
 
-    if helpers::metadata::is_elf(&data) {
+    if helpers::info::is_elf(&data) {
         println!("{}", "This file is probably ELF!".blue())
     }
 
