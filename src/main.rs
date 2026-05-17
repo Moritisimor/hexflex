@@ -9,7 +9,7 @@ use clap::Parser;
 use owo_colors::OwoColorize;
 use rustyline::error::ReadlineError;
 
-use crate::flags::Flags;
+use crate::{flags::Flags, helpers::get_hist_file_path};
 
 fn main() -> anyhow::Result<()> {
     let flags = Flags::parse();
@@ -47,7 +47,12 @@ fn main() -> anyhow::Result<()> {
         return Ok(());
     }
 
+    let hist_file_path = get_hist_file_path()?;
     let mut rl = rustyline::DefaultEditor::new()?;
+    if rl.load_history(&hist_file_path).is_err() {
+        println!("{}", "No histfile yet.".yellow());
+    }
+    
     let prompt = format!(
         "{}{}{} {} {} ",
         "[".blue(),
@@ -75,6 +80,7 @@ fn main() -> anyhow::Result<()> {
             Ok(i) => i,
         };
 
+        rl.add_history_entry(&input)?;
         let fields: Vec<&str> = input.split_whitespace().collect();
         if fields.is_empty() {
             continue;
@@ -92,6 +98,7 @@ fn main() -> anyhow::Result<()> {
         }
     }
 
+    rl.save_history(&hist_file_path)?;
     println!("{}", "Bye".green());
     Ok(())
 }
