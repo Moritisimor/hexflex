@@ -9,7 +9,7 @@ use clap::Parser;
 use owo_colors::OwoColorize;
 use rustyline::error::ReadlineError;
 
-use crate::{flags::Flags, helpers::history::get_hist_file_path};
+use crate::{flags::Flags, helpers::hist::get_hist_file_path};
 
 fn main() -> anyhow::Result<()> {
     let flags = Flags::parse();
