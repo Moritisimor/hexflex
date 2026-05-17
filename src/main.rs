@@ -9,7 +9,7 @@ use clap::Parser;
 use owo_colors::OwoColorize;
 use rustyline::error::ReadlineError;
 
-use crate::{flags::Flags, helpers::get_hist_file_path};
+use crate::{flags::Flags, helpers::history::get_hist_file_path};
 
 fn main() -> anyhow::Result<()> {
     let flags = Flags::parse();
@@ -22,7 +22,7 @@ fn main() -> anyhow::Result<()> {
         "Bytes".blue()
     );
 
-    if helpers::is_elf(&data) {
+    if helpers::metadata::is_elf(&data) {
         println!("{}", "This file is probably ELF!".blue())
     }
 
@@ -32,7 +32,7 @@ fn main() -> anyhow::Result<()> {
         let mut idx = 0;
 
         data.iter().for_each(|b| {
-            helpers::format_line(*b, idx, &mut line_buf);
+            helpers::lines::format_line(*b, idx, &mut line_buf);
             file_buf += &line_buf;
             idx += 1;
         });

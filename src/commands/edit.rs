@@ -4,7 +4,7 @@ use owo_colors::OwoColorize;
 
 pub fn edit_byte(buf: &mut Vec<u8>, args: &Vec<&str>) {
     let idx = match args.get(1) {
-        Some(i) => match helpers::usize_of_str(i) {
+        Some(i) => match helpers::conversion::usize_of_str(i) {
             Some(x) => x,
             None => {
                 println!("{}", "Index must be a valid non-negative integer.".red());
@@ -58,7 +58,7 @@ pub fn edit_byte(buf: &mut Vec<u8>, args: &Vec<&str>) {
             }
         };
 
-        match helpers::usize_of_str(input.trim()) {
+        match helpers::conversion::usize_of_str(input.trim()) {
             None => println!("{}", "Please only enter valid non-negative integers".red()),
             Some(i) => match i <= 255 {
                 false => println!("{}", "This number does not fit into a byte.".red()),
@@ -74,7 +74,7 @@ pub fn edit_byte(buf: &mut Vec<u8>, args: &Vec<&str>) {
 
 pub fn nullify(buf: &mut Vec<u8>, args: &Vec<&str>) {
     let idx = match args.get(1) {
-        Some(i) => match helpers::usize_of_str(i) {
+        Some(i) => match helpers::conversion::usize_of_str(i) {
             Some(x) => x,
             None => {
                 println!("{}", "Please only enter valid non-negative integers".red());

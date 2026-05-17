@@ -43,11 +43,11 @@ pub fn find_string(buf: &Vec<u8>, args: &Vec<&str>) {
 }
 
 pub fn find_bytes(buf: &Vec<u8>, args: &Vec<&str>) {
-    let search_bytes: Vec<_> = match helpers::sequence(
+    let search_bytes: Vec<_> = match helpers::conversion::sequence(
         args[1..]
             .join(" ")
             .split_whitespace()
-            .map(|c| helpers::u8_of_str(c))
+            .map(|c| helpers::conversion::u8_of_str(c))
             .collect(),
     ) {
         Some(b) => b,
