@@ -6,9 +6,9 @@ use crate::helpers;
 fn find(needle: &[u8], haystack: &[u8]) {
     if needle.is_empty() {
         println!("{}", "No input.".red());
-        return
+        return;
     }
-    
+
     println!("{}", "Searching...".green());
     let mut matches = 0;
     let mut idx = 0;
@@ -36,8 +36,11 @@ fn find(needle: &[u8], haystack: &[u8]) {
     }
 }
 
-pub fn find_string(buf: &Vec<u8>, args: &Vec<&str>) {
-    find(&args[1..].join(" ").chars().map(|c| c as u8).collect::<Vec<_>>(), &buf)
+pub fn find_string(buf: &Vec<u8>, searchee: &str) {
+    match searchee.strip_prefix("fs ") {
+        Some(s) => find(s.as_bytes(), &buf),
+        None => println!("{}", "No input.".red()),
+    }
 }
 
 pub fn find_bytes(buf: &Vec<u8>, args: &Vec<&str>) {
@@ -54,7 +57,7 @@ pub fn find_bytes(buf: &Vec<u8>, args: &Vec<&str>) {
                 "{}",
                 "One or more of the bytes you entered could not be parsed.".red()
             );
-            
+
             return;
         }
     }

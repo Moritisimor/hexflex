@@ -94,7 +94,7 @@ fn main() -> anyhow::Result<()> {
             "clear" | "c" => println!("\x1b[H\x1b[2J\x1b[3J"),
             "nullify" | "n" => commands::edit::nullify(&mut data, &fields),
             "findbytes" | "fb" => commands::find::find_bytes(&data, &fields),
-            "findstring" | "fs" => commands::find::find_string(&data, &fields),
+            "findstring" | "fs" => commands::find::find_string(&data, &input),
             _ => println!("{} {}", "Unknown command:".red(), fields[0].blue()),
         }
     }

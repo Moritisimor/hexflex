@@ -1,5 +1,5 @@
-use owo_colors::OwoColorize;
 use crate::helpers;
+use owo_colors::OwoColorize;
 
 pub fn print_line(byte: u8, idx: usize) {
     print!(
