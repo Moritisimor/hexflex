@@ -52,13 +52,9 @@ pub fn find_bytes(buf: &Vec<u8>, args: &Vec<&str>) {
             .collect(),
     ) {
         Some(b) => find(&b, &buf),
-        None => {
-            println!(
-                "{}",
-                "One or more of the bytes you entered could not be parsed.".red()
-            );
-
-            return;
-        }
+        None => println!(
+            "{}",
+            "One or more of the bytes you entered could not be parsed.".red()
+        ),
     }
 }
