@@ -4,6 +4,11 @@ use crate::helpers;
 
 // Finds the needle in the haystack
 fn find(needle: &[u8], haystack: &[u8]) {
+    if needle.is_empty() {
+        println!("{}", "No input.".red());
+        return
+    }
+    
     println!("{}", "Searching...".green());
     let mut matches = 0;
     let mut idx = 0;
@@ -32,30 +37,18 @@ fn find(needle: &[u8], haystack: &[u8]) {
 }
 
 pub fn find_string(buf: &Vec<u8>, args: &Vec<&str>) {
-    let search_bytes: Vec<u8> = args[1..].join(" ").chars().map(|c| c as u8).collect();
-
-    if search_bytes.is_empty() {
-        println!(
-            "{}\n{}",
-            "Invalid amount of arguments.".red(),
-            "Usage: find <bytes...>".green()
-        );
-
-        return;
-    }
-
-    find(&search_bytes, &buf)
+    find(&args[1..].join(" ").chars().map(|c| c as u8).collect::<Vec<_>>(), &buf)
 }
 
 pub fn find_bytes(buf: &Vec<u8>, args: &Vec<&str>) {
-    let search_bytes: Vec<_> = match helpers::conv::sequence(
+    match helpers::conv::sequence(
         args[1..]
             .join(" ")
             .split_whitespace()
             .map(|c| helpers::conv::u8_of_str(c))
             .collect(),
     ) {
-        Some(b) => b,
+        Some(b) => find(&b, &buf),
         None => {
             println!(
                 "{}",
@@ -64,7 +57,5 @@ pub fn find_bytes(buf: &Vec<u8>, args: &Vec<&str>) {
             
             return;
         }
-    };
-
-    find(&search_bytes, &buf)
+    }
 }
