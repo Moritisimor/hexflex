@@ -42,7 +42,7 @@ hexflex -i input_file -o output_file
 
 This will dump the contents of `input_file` into `output_file` in a human-readable format.
 
-Keep in mind that `output_file` might be rather large, depending on how large `input_large` is.
+Keep in mind that `output_file` might be rather large, depending on how large `input_file` is.
 
 ### REPL
 This mode works very similarly to a shell, meaning that to read and modify the bytes you will need to type some commands.
