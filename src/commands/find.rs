@@ -6,7 +6,7 @@ use crate::helpers;
 // Finds the needle in the haystack
 fn find(needle: &[u8], haystack: &[u8]) -> anyhow::Result<()> {
     if needle.is_empty() {
-        bail!("Cannot search for an empty byte sequence.")
+        bail!("Cannot search for an empty byte sequence")
     }
 
     println!("{}", "Searching...".green());
@@ -41,7 +41,7 @@ fn find(needle: &[u8], haystack: &[u8]) -> anyhow::Result<()> {
 pub fn find_string(buf: &[u8], searchee: &str) -> anyhow::Result<()> {
     match searchee.strip_prefix("fs ") {
         Some(s) => Ok(find(s.as_bytes(), &buf)?),
-        None => bail!("No input."),
+        None => bail!("Cannot search for an empty byte sequence"),
     }
 }
 
@@ -53,6 +53,6 @@ pub fn find_bytes(buf: &[u8], args: &[&str]) -> anyhow::Result<()> {
             .collect(),
     ) {
         Some(b) => Ok(find(&b, &buf)?),
-        None => bail!("One or more of the bytes you entered could not be parsed."),
+        None => bail!("One or more of the bytes you entered could not be parsed"),
     }
 }
