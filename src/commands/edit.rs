@@ -2,7 +2,7 @@ use crate::helpers;
 
 use owo_colors::OwoColorize;
 
-pub fn edit_byte(buf: &mut Vec<u8>, args: &Vec<&str>) {
+pub fn edit_byte(buf: &mut [u8], args: &[&str]) {
     let idx = match args.get(1) {
         Some(i) => match helpers::conv::usize_of_str(i) {
             Some(x) => x,

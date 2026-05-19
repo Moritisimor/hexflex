@@ -2,7 +2,7 @@ use crate::helpers;
 
 use owo_colors::OwoColorize;
 
-pub fn read_byte(buf: &Vec<u8>, args: &Vec<&str>) {
+pub fn read_byte(buf: &[u8], args: &[&str]) {
     let start_idx = match args.get(1) {
         Some(i) => match helpers::conv::usize_of_str(i) {
             Some(n) => n,

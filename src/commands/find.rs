@@ -36,14 +36,14 @@ fn find(needle: &[u8], haystack: &[u8]) {
     }
 }
 
-pub fn find_string(buf: &Vec<u8>, searchee: &str) {
+pub fn find_string(buf: &[u8], searchee: &str) {
     match searchee.strip_prefix("fs ") {
         Some(s) => find(s.as_bytes(), &buf),
         None => println!("{}", "No input.".red()),
     }
 }
 
-pub fn find_bytes(buf: &Vec<u8>, args: &Vec<&str>) {
+pub fn find_bytes(buf: &[u8], args: &[&str]) {
     match helpers::conv::sequence(
         args[1..]
             .join(" ")
