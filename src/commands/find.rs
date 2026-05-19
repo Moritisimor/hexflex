@@ -46,8 +46,7 @@ pub fn find_string(buf: &[u8], searchee: &str) {
 pub fn find_bytes(buf: &[u8], args: &[&str]) {
     match helpers::conv::sequence(
         args[1..]
-            .join(" ")
-            .split_whitespace()
+            .iter()
             .map(|c| helpers::conv::u8_of_str(c))
             .collect(),
     ) {
