@@ -12,16 +12,12 @@ pub fn read_byte(buf: &[u8], args: &[&str]) -> anyhow::Result<()> {
             bail!("End-index must be larger than start-index")
         }
 
+        if buf.len() <= end_idx {
+            bail!("Trying to read out-of-bounds ({:#010x})", end_idx)
+        }
+
         for idx in start_idx..=end_idx {
-            match buf.get(idx) {
-                Some(byte) => helpers::lines::print_line(*byte, idx),
-                None => bail!(
-                    "[{:#010x}] {} {}",
-                    idx,
-                    "Error while printing range of bytes:",
-                    "No such index in buffer"
-                ),
-            }
+            helpers::lines::print_line(buf[idx], idx)
         }
 
         return Ok(());
@@ -37,10 +33,8 @@ pub fn read_byte(buf: &[u8], args: &[&str]) -> anyhow::Result<()> {
     };
 
     // For reading the whole file
-    let mut idx = 0;
-    for byte in buf {
+    for (idx, byte) in buf.iter().enumerate() {
         helpers::lines::print_line(*byte, idx);
-        idx += 1
     }
     
     Ok(())
