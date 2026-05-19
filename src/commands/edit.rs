@@ -1,42 +1,21 @@
 use crate::helpers;
 
+use anyhow::bail;
 use owo_colors::OwoColorize;
 
-pub fn edit_byte(buf: &mut [u8], args: &[&str]) {
+pub fn edit_byte(buf: &mut [u8], args: &[&str]) -> anyhow::Result<()> {
     let idx = match args.get(1) {
+        None => bail!("Invalid amount of arguments."),
         Some(i) => match helpers::conv::usize_of_str(i) {
             Some(x) => x,
-            None => {
-                println!("{}", "Index must be a valid non-negative integer.".red());
-                return;
-            }
+            None => bail!("{}", "Index must be a valid non-negative integer.".red()),
         },
-
-        None => {
-            println!(
-                "{}\n{}",
-                "Invalid amount of arguments.".red(),
-                "Usage: edit <index:usize>".green()
-            );
-
-            return;
-        }
     };
 
-    let mut rl = match rustyline::DefaultEditor::new() {
-        Ok(r) => r,
-        Err(e) => {
-            eprintln!("{} {}", "Error while creating rustyline editor:", e.red());
-            return;
-        }
-    };
-
+    let mut rl = rustyline::DefaultEditor::new()?;
     let val = match buf.get(idx) {
         Some(v) => *v,
-        None => {
-            println!("{}", "No such index in buffer".red());
-            return;
-        }
+        None => bail!("No such index in buffer"),
     };
 
     loop {
@@ -46,16 +25,8 @@ pub fn edit_byte(buf: &mut [u8], args: &[&str]) {
         ) {
             Ok(i) => i,
             Err(rustyline::error::ReadlineError::Eof)
-            | Err(rustyline::error::ReadlineError::Interrupted) => return,
-            Err(e) => {
-                eprintln!(
-                    "{} {}",
-                    "Error while reading with rustyline editor:".red(),
-                    e.red()
-                );
-
-                return;
-            }
+            | Err(rustyline::error::ReadlineError::Interrupted) => return Ok(()),
+            Err(e) => bail!("Error while reading with rustyline editor: {e}"),
         };
 
         match helpers::conv::u8_of_str(input.trim()) {
@@ -67,34 +38,26 @@ pub fn edit_byte(buf: &mut [u8], args: &[&str]) {
             }
         }
     }
+
+    Ok(())
 }
 
-pub fn nullify(buf: &mut Vec<u8>, args: &Vec<&str>) {
+pub fn nullify(buf: &mut Vec<u8>, args: &Vec<&str>) -> anyhow::Result<()> {
     let idx = match args.get(1) {
         Some(i) => match helpers::conv::usize_of_str(i) {
             Some(x) => x,
-            None => {
-                println!("{}", "Please only enter valid non-negative integers".red());
-                return;
-            }
+            None => bail!("Please only enter valid non-negative integers")
+            
         },
 
-        None => {
-            println!(
-                "{} {}",
-                "Invalid amount of arguments,".red(),
-                "Usage: nullify <index:usize>"
-            );
-
-            return;
-        }
+        None => bail!("Invalid amount of arguments")
     };
 
     if let None = buf.get(idx) {
-        println!("{}", "No such index in buffer".red());
-        return;
+        bail!("No such index in buffer");
     }
 
     buf[idx] = 0;
     println!("{} {:#010x}", "Successfully nullified".green(), idx.blue());
+    Ok(())
 }

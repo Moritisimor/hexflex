@@ -86,16 +86,27 @@ fn main() -> anyhow::Result<()> {
             continue;
         }
 
-        match fields[0] {
+        let res = match fields[0] {
             "quit" | "exit" | "q" => break,
             "read" | "r" => commands::read::read_byte(&data, &fields),
             "edit" | "e" => commands::edit::edit_byte(&mut data, &fields),
             "save" | "s" => commands::save::save(&data, &fields, &flags.input_file),
-            "clear" | "c" => println!("\x1b[H\x1b[2J\x1b[3J"),
             "nullify" | "n" => commands::edit::nullify(&mut data, &fields),
             "findbytes" | "fb" => commands::find::find_bytes(&data, &fields),
             "findstring" | "fs" => commands::find::find_string(&data, &input),
-            _ => println!("{} {}", "Unknown command:".red(), fields[0].blue()),
+            "clear" | "c" => {
+                println!("\x1b[H\x1b[2J\x1b[3J");
+                continue;
+            }
+            
+            _ => {
+                println!("{} {}", "Unknown command:".red(), fields[0].blue());
+                continue;
+            }
+        };
+
+        if let Err(e) = res {
+            println!("{} {}", "Error while executing:".red(), e.yellow())
         }
     }
 

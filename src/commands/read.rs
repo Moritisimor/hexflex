@@ -1,15 +1,12 @@
 use crate::helpers;
 
-use owo_colors::OwoColorize;
+use anyhow::bail;
 
-pub fn read_byte(buf: &[u8], args: &[&str]) {
+pub fn read_byte(buf: &[u8], args: &[&str]) -> anyhow::Result<()> {
     let start_idx = match args.get(1) {
         Some(i) => match helpers::conv::usize_of_str(i) {
             Some(n) => n,
-            None => {
-                println!("{}", "Argument to this command must be a number.".red());
-                return;
-            }
+            None => bail!("Arguments to this command must be a numbers"),
         },
 
         None => {
@@ -19,40 +16,37 @@ pub fn read_byte(buf: &[u8], args: &[&str]) {
                 idx += 1;
             });
 
-            return;
+            return Ok(());
         }
     };
 
     if let Some(i) = args.get(2) {
         let end_idx = match helpers::conv::usize_of_str(i) {
             Some(x) => x,
-            None => {
-                println!("{}", "End-index must be a valid non-negative integer".red());
-                return;
-            }
+            None => bail!("End-index must be a valid non-negative integer"),
         };
+
+        if end_idx <= start_idx {
+            bail!("End-index must be larger than start index")
+        }
 
         for idx in start_idx..=end_idx {
             match buf.get(idx) {
                 Some(byte) => helpers::lines::print_line(*byte, idx),
-                None => {
-                    println!(
-                        "[{:#010x}] {} {}",
-                        idx.green(),
-                        "Error while printing range of bytes:".red(),
-                        "No such index in buffer".red()
-                    );
-
-                    return;
-                }
+                None => bail!(
+                    "[{:#010x}] {} {}",
+                    idx,
+                    "Error while printing range of bytes:",
+                    "No such index in buffer"
+                ),
             }
         }
 
-        return;
+        return Ok(());
     }
 
     match buf.get(start_idx) {
-        Some(b) => helpers::lines::print_line(*b, start_idx),
-        None => println!("{}", "No such index in buffer".red()),
+        Some(b) => Ok(helpers::lines::print_line(*b, start_idx)),
+        None => bail!("No such index in buffer"),
     }
 }

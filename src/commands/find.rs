@@ -1,12 +1,12 @@
+use anyhow::bail;
 use owo_colors::OwoColorize;
 
 use crate::helpers;
 
 // Finds the needle in the haystack
-fn find(needle: &[u8], haystack: &[u8]) {
+fn find(needle: &[u8], haystack: &[u8]) -> anyhow::Result<()> {
     if needle.is_empty() {
-        println!("{}", "No input.".red());
-        return;
+        bail!("Cannot search for an empty byte sequence.")
     }
 
     println!("{}", "Searching...".green());
@@ -33,27 +33,26 @@ fn find(needle: &[u8], haystack: &[u8]) {
         0 => println!("{}", "No matches for this byte sequence".red()),
         1 => println!("{} {}", 1.blue(), "Match!".green()),
         _ => println!("{} {}", matches.blue(), "Matches!".green()),
-    }
+    };
+
+    Ok(())
 }
 
-pub fn find_string(buf: &[u8], searchee: &str) {
+pub fn find_string(buf: &[u8], searchee: &str) -> anyhow::Result<()> {
     match searchee.strip_prefix("fs ") {
-        Some(s) => find(s.as_bytes(), &buf),
-        None => println!("{}", "No input.".red()),
+        Some(s) => Ok(find(s.as_bytes(), &buf)?),
+        None => bail!("No input."),
     }
 }
 
-pub fn find_bytes(buf: &[u8], args: &[&str]) {
+pub fn find_bytes(buf: &[u8], args: &[&str]) -> anyhow::Result<()> {
     match helpers::conv::sequence(
         args[1..]
             .iter()
             .map(|c| helpers::conv::u8_of_str(c))
             .collect(),
     ) {
-        Some(b) => find(&b, &buf),
-        None => println!(
-            "{}",
-            "One or more of the bytes you entered could not be parsed.".red()
-        ),
+        Some(b) => Ok(find(&b, &buf)?),
+        None => bail!("One or more of the bytes you entered could not be parsed.")
     }
 }
