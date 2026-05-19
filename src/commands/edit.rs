@@ -58,16 +58,13 @@ pub fn edit_byte(buf: &mut Vec<u8>, args: &Vec<&str>) {
             }
         };
 
-        match helpers::conv::usize_of_str(input.trim()) {
-            None => println!("{}", "Please only enter valid non-negative integers".red()),
-            Some(i) => match i <= 255 {
-                false => println!("{}", "This number does not fit into a byte.".red()),
-                true => {
-                    let byte = i as u8;
-                    buf[idx] = byte;
-                    break;
-                }
-            },
+        match helpers::conv::u8_of_str(input.trim()) {
+            None => println!("{}", "Please only enter numbers from 0-255.".red()),
+            Some(i) => {
+                let byte = i as u8;
+                buf[idx] = byte;
+                break;
+            }
         }
     }
 }
