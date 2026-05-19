@@ -53,6 +53,6 @@ pub fn find_bytes(buf: &[u8], args: &[&str]) -> anyhow::Result<()> {
             .collect(),
     ) {
         Some(b) => Ok(find(&b, &buf)?),
-        None => bail!("One or more of the bytes you entered could not be parsed.")
+        None => bail!("One or more of the bytes you entered could not be parsed."),
     }
 }

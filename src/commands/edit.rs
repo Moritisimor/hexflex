@@ -46,11 +46,10 @@ pub fn nullify(buf: &mut Vec<u8>, args: &Vec<&str>) -> anyhow::Result<()> {
     let idx = match args.get(1) {
         Some(i) => match helpers::conv::usize_of_str(i) {
             Some(x) => x,
-            None => bail!("Please only enter valid non-negative integers")
-            
+            None => bail!("Please only enter valid non-negative integers"),
         },
 
-        None => bail!("Invalid amount of arguments")
+        None => bail!("Invalid amount of arguments"),
     };
 
     if let None = buf.get(idx) {
