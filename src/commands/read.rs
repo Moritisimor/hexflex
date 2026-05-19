@@ -3,31 +3,13 @@ use crate::helpers;
 use anyhow::bail;
 
 pub fn read_byte(buf: &[u8], args: &[&str]) -> anyhow::Result<()> {
-    let start_idx = match args.get(1) {
-        Some(i) => match helpers::conv::usize_of_str(i) {
-            Some(n) => n,
-            None => bail!("Arguments to this command must be a numbers"),
-        },
-
-        None => {
-            let mut idx = 0;
-            buf.iter().for_each(|b| {
-                helpers::lines::print_line(*b, idx);
-                idx += 1;
-            });
-
-            return Ok(());
-        }
-    };
-
-    if let Some(i) = args.get(2) {
-        let end_idx = match helpers::conv::usize_of_str(i) {
-            Some(x) => x,
-            None => bail!("End-index must be a valid non-negative integer"),
-        };
+    // For reading ranges
+    if let (Some(a1), Some(a2)) = (args.get(1), args.get(2)) {
+        let start_idx = helpers::conv::usize_of_str(a1)?;
+        let end_idx = helpers::conv::usize_of_str(a2)?;
 
         if end_idx <= start_idx {
-            bail!("End-index must be larger than start index")
+            bail!("End-index must be larger than start-index")
         }
 
         for idx in start_idx..=end_idx {
@@ -45,8 +27,21 @@ pub fn read_byte(buf: &[u8], args: &[&str]) -> anyhow::Result<()> {
         return Ok(());
     }
 
-    match buf.get(start_idx) {
-        Some(b) => Ok(helpers::lines::print_line(*b, start_idx)),
-        None => bail!("No such index in buffer"),
+    // For reading a single byte
+    if let Some(a) = args.get(1) {
+        let idx = helpers::conv::usize_of_str(a)?;
+        match buf.get(idx) {
+            None => bail!("No such index in buffer"),
+            Some(i) => return Ok(helpers::lines::print_line(*i, idx)),
+        };
+    };
+
+    // For reading the whole file
+    let mut idx = 0;
+    for byte in buf {
+        helpers::lines::print_line(*byte, idx);
+        idx += 1
     }
+    
+    Ok(())
 }

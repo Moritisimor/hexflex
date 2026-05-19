@@ -46,13 +46,10 @@ pub fn find_string(buf: &[u8], searchee: &str) -> anyhow::Result<()> {
 }
 
 pub fn find_bytes(buf: &[u8], args: &[&str]) -> anyhow::Result<()> {
-    match helpers::conv::sequence(
-        args[1..]
-            .iter()
-            .map(|c| helpers::conv::u8_of_str(c))
-            .collect(),
-    ) {
-        Some(b) => Ok(find(&b, &buf)?),
-        None => bail!("One or more of the bytes you entered could not be parsed"),
+    let mut search_bytes: Vec<u8> = vec![];
+    for arg in &args[1..] {
+        search_bytes.push(helpers::conv::u8_of_str(arg)?);
     }
+
+    find(&search_bytes, &buf)
 }
