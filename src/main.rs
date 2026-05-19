@@ -1,6 +1,7 @@
 pub mod commands;
 pub mod flags;
 pub mod helpers;
+pub mod modes;
 
 use std::fs;
 
@@ -27,24 +28,7 @@ fn main() -> anyhow::Result<()> {
     }
 
     if let Some(file_name) = flags.output_file {
-        let mut file_buf = String::new();
-        let mut line_buf = String::new();
-        let mut idx = 0;
-
-        data.iter().for_each(|b| {
-            helpers::lines::format_line(*b, idx, &mut line_buf);
-            file_buf += &line_buf;
-            idx += 1;
-        });
-
-        std::fs::write(&file_name, file_buf)?;
-        println!(
-            "{} {}",
-            "Successfully saved content to:".green(),
-            &file_name.magenta()
-        );
-
-        return Ok(());
+        modes::output::output(&data, &file_name)?
     }
 
     let hist_file_path = get_hist_file_path()?;
