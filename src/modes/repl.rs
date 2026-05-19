@@ -7,6 +7,9 @@ use anyhow::bail;
 pub fn repl(prompt: &str, mut data: Vec<u8>, file_name: &str) -> anyhow::Result<()> {
     let hist_file_path = helpers::hist::get_hist_file_path()?;
     let mut rl = rustyline::DefaultEditor::new()?;
+    if rl.load_history(&hist_file_path).is_err() {
+        println!("{}", "No histfile yet.".yellow());
+    }
 
     loop {
         let input = match rl.readline(prompt) {

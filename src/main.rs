@@ -8,7 +8,7 @@ use std::fs;
 use clap::Parser;
 use owo_colors::OwoColorize;
 
-use crate::{flags::Flags, helpers::hist::get_hist_file_path};
+use crate::flags::Flags;
 
 fn main() -> anyhow::Result<()> {
     let flags = Flags::parse();
@@ -28,12 +28,6 @@ fn main() -> anyhow::Result<()> {
     if let Some(file_name) = flags.output_file {
         modes::output::output(&data, &file_name)?;
         return Ok(());
-    }
-
-    let hist_file_path = get_hist_file_path()?;
-    let mut rl = rustyline::DefaultEditor::new()?;
-    if rl.load_history(&hist_file_path).is_err() {
-        println!("{}", "No histfile yet.".yellow());
     }
 
     let prompt = format!(
