@@ -19,7 +19,7 @@ pub fn delete(buf: &mut Vec<u8>, args: &[&str]) -> anyhow::Result<()> {
             buf.remove(start_idx);
         }
 
-        return Ok(())
+        return Ok(());
     }
 
     if let Some(a) = args.get(1) {
@@ -29,7 +29,7 @@ pub fn delete(buf: &mut Vec<u8>, args: &[&str]) -> anyhow::Result<()> {
         };
 
         buf.remove(idx);
-        return Ok(())
+        return Ok(());
     }
 
     bail!("Expected at least one argument, got none")
