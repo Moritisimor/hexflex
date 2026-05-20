@@ -36,6 +36,6 @@ pub fn read_byte(buf: &[u8], args: &[&str]) -> anyhow::Result<()> {
     for (idx, byte) in buf.iter().enumerate() {
         helpers::lines::print_line(*byte, idx);
     }
-    
+
     Ok(())
 }

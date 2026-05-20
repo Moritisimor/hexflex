@@ -11,6 +11,17 @@ pub fn repl(prompt: &str, mut data: Vec<u8>, file_name: &str) -> anyhow::Result<
         println!("{}", "No histfile yet.".yellow());
     }
 
+    println!(
+        "{} {} {}",
+        "Read".blue(),
+        data.len().green(),
+        "Bytes".blue()
+    );
+
+    if helpers::info::is_elf(&data) {
+        println!("{}", "This file is probably ELF!".blue())
+    }
+
     loop {
         let input = match rl.readline(prompt) {
             Err(ReadlineError::Interrupted) => {

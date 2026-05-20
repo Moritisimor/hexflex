@@ -5,6 +5,7 @@ pub mod modes;
 
 use std::fs;
 
+use anyhow::bail;
 use clap::Parser;
 use owo_colors::OwoColorize;
 
@@ -14,20 +15,17 @@ fn main() -> anyhow::Result<()> {
     let flags = Flags::parse();
     let data = fs::read(&flags.input_file)?;
 
-    println!(
-        "{} {} {}",
-        "Read".blue(),
-        data.len().green(),
-        "Bytes".blue()
-    );
+    if let Some(file_name) = flags.output_file {
+        match flags.reverse {
+            false => modes::output::output(&data, &file_name)?,
+            true => modes::reverse::reverse(&flags.input_file, &file_name)?,
+        };
 
-    if helpers::info::is_elf(&data) {
-        println!("{}", "This file is probably ELF!".blue())
+        return Ok(());
     }
 
-    if let Some(file_name) = flags.output_file {
-        modes::output::output(&data, &file_name)?;
-        return Ok(());
+    if flags.reverse {
+        bail!("Setting the --reverse flag requires the --output-file flag to be set as well")
     }
 
     let prompt = format!(

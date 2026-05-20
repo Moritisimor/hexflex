@@ -6,4 +6,7 @@ pub struct Flags {
 
     #[arg(short, long)]
     pub output_file: Option<String>,
+
+    #[arg(short, long)]
+    pub reverse: bool,
 }

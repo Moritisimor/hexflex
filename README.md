@@ -26,8 +26,9 @@ cargo build -r
 The compiled binary can be found here: `target/release/hexflex`.
 
 ## How do I use it?
-There are 2 main modes:
+There are 3 main modes:
 - Dumping to a file
+- Reverse
 - REPL
 
 ### Dumping to a file
@@ -43,6 +44,33 @@ hexflex input_file -o output_file
 This will dump the contents of `input_file` into `output_file` in a human-readable format.
 
 Keep in mind that `output_file` might be rather large, depending on how large `input_file` is.
+
+### Reverse
+This mode will take the path to a file that contains one or more bytes written as hex, binary or decimal.
+
+It will parse these representations of bytes to actual bytes and write them to ```output_file```.
+
+Setting the ```--reverse``` flag requires the ```--output-file``` flag to be set as well.
+
+Example:
+```bash
+hexflex input_file -r -o output_file
+```
+
+```input_file``` could, for example look like this:
+```
+0x68 0x65
+0x6c
+0x6c 0x6f
+0x20 0x77
+0x6f 0x72
+0x6c 0x64
+```
+
+```output_file``` would then look like this:
+```
+hello world
+```
 
 ### REPL
 This mode works very similarly to a shell, meaning that to read and modify the bytes you will need to type some commands.
