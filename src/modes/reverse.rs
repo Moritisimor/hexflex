@@ -10,7 +10,6 @@ pub fn reverse(input_file: &str, output_file: &str) -> anyhow::Result<()> {
     for word in content.split_whitespace() {
         acc.push(helpers::conv::u8_of_str(word)?);
     }
-    
 
     fs::write(output_file, acc)?;
     Ok(())

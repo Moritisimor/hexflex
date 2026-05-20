@@ -51,6 +51,7 @@ pub fn repl(prompt: &str, mut data: Vec<u8>, file_name: &str) -> anyhow::Result<
             "read" | "r" => commands::read::read_byte(&data, &fields),
             "edit" | "e" => commands::edit::edit_byte(&mut data, &fields),
             "save" | "s" => commands::save::save(&data, &fields, file_name),
+            "delete" | "d" => commands::delete::delete(&mut data, &fields),
             "nullify" | "n" => commands::edit::nullify(&mut data, &fields),
             "findbytes" | "fb" => commands::find::find_bytes(&data, &fields),
             "findstring" | "fs" => commands::find::find_string(&data, &input),

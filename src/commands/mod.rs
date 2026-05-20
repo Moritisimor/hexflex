@@ -1,3 +1,4 @@
+pub mod delete;
 pub mod edit;
 pub mod find;
 pub mod read;

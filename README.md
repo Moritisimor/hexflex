@@ -131,12 +131,23 @@ Edit 0x0000000a > 0x54
 From here you can edit the number to be anything you want, as long as it's between 0 and 255.
 
 #### Nullify
+This simply sets the byte to `0x0`.
+
 ```bash
 [input_file] HexFlex >> n 0xa
 Successfully nullified 0x0000000a
 ```
 
-This simply sets the byte to `0x0`.
+#### Delete
+To delete just a single byte, give the offset as the argument, like this:
+```bash
+[input_file] HexFlex >> d 0xa
+```
+
+to delete a range of bytes, give the start offset and the end offset as arguments, like this:
+```bash
+[input_file] HexFlex >> d 0xa 0xf
+```
 
 #### Find String
 ```bash
