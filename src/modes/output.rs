@@ -6,7 +6,7 @@ pub fn output(data: &[u8], file_name: &str) -> anyhow::Result<()> {
     let mut file_buf = String::new();
     helpers::lines::format_bytes(data, &mut file_buf);
     std::fs::write(&file_name, file_buf)?;
-    
+
     println!(
         "{} {}",
         "Successfully saved content to:".green(),

@@ -59,7 +59,7 @@ pub fn nullify(buf: &mut Vec<u8>, args: &Vec<&str>) -> anyhow::Result<()> {
             end_idx.blue()
         );
 
-        return Ok(())
+        return Ok(());
     }
 
     let idx = match args.get(1) {

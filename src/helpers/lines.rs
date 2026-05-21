@@ -24,12 +24,12 @@ pub fn format_bytes(bytes: &[u8], buf: &mut String) {
     let mut idx = 0;
 
     for word in bytes.chunks(8) {
-        *buf += &format!("{:#010x}: ", idx);
+        buf.push_str(&format!("{:#010x}: ", idx));
         for byte in word {
-            *buf += &format!("{:#04x} ", byte);
+            buf.push_str(&format!("{:#04x} ", byte));
         }
 
-        *buf += "|";
+        buf.push('|');
         for byte in word {
             if helpers::info::is_probably_printable(*byte as char) {
                 buf.push(*byte as char);
@@ -38,8 +38,7 @@ pub fn format_bytes(bytes: &[u8], buf: &mut String) {
             }
         }
 
-        *buf += "|";
         idx += 8;
-        *buf += "\n";
+        buf.push_str("|\n");
     }
 }
