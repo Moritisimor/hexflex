@@ -46,16 +46,3 @@ pub fn u8_of_str(parsee: &str) -> anyhow::Result<u8> {
         Err(_) => bail!("Error while parsing {parsee} to u8"),
     }
 }
-
-// sequence :: [Maybe a] -> Maybe [a]
-pub fn sequence<T>(list: Vec<Option<T>>) -> Option<Vec<T>> {
-    let mut acc: Vec<T> = vec![];
-    for t in list {
-        match t {
-            None => return None,
-            Some(i) => acc.push(i),
-        }
-    }
-
-    Some(acc)
-}
