@@ -22,7 +22,7 @@ pub fn delete(buf: &mut Vec<u8>, args: &[&str]) -> anyhow::Result<()> {
     if let Some(a) = args.get(1) {
         let idx = helpers::conv::usize_of_str(a)?;
         if let None = buf.get(idx) {
-            bail!("Cannot delete byte at this sequence as it is out of bounds")
+            bail!("Cannot delete byte at this index as it is out of bounds")
         };
 
         buf.remove(idx);
