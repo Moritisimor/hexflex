@@ -138,6 +138,14 @@ This simply sets the byte to `0x0`.
 Successfully nullified 0x0000000a
 ```
 
+It also allows for nullifying ranges of bytes. 
+
+To do this you simply supply the start index and the end index like this:
+```bash
+[input_file] HexFlex >> n 0xa 0xf
+Successfully nullified 0x0000000a - 0x0000000f
+```
+
 #### Delete
 To delete just a single byte, give the offset as the argument, like this:
 ```bash

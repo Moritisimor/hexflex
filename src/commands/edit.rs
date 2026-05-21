@@ -35,9 +35,36 @@ pub fn edit_byte(buf: &mut [u8], args: &[&str]) -> anyhow::Result<()> {
 }
 
 pub fn nullify(buf: &mut Vec<u8>, args: &Vec<&str>) -> anyhow::Result<()> {
+    if let (Some(a1), Some(a2)) = (args.get(1), args.get(2)) {
+        let start_idx = helpers::conv::usize_of_str(a1)?;
+        let end_idx = helpers::conv::usize_of_str(a2)?;
+
+        let (Some(_), Some(_)) = (buf.get(start_idx), buf.get(end_idx)) else {
+            bail!("Cannot delete this byte sequence as it is out of bounds")
+        };
+
+        if end_idx <= start_idx {
+            bail!("End-index must be larger than start-index")
+        }
+
+        for i in start_idx..=end_idx {
+            buf[i] = 0
+        }
+
+        println!(
+            "{} {:#010x} {} {:#010x}",
+            "Successfully nullified".green(),
+            start_idx.blue(),
+            "-".green(),
+            end_idx.blue()
+        );
+
+        return Ok(())
+    }
+
     let idx = match args.get(1) {
         Some(i) => helpers::conv::usize_of_str(i)?,
-        None => bail!("Invalid amount of arguments"),
+        None => bail!("Expected at least one argument"),
     };
 
     if let None = buf.get(idx) {
