@@ -15,10 +15,7 @@ pub fn delete(buf: &mut Vec<u8>, args: &[&str]) -> anyhow::Result<()> {
             bail!("End-index must be larger than start-index")
         }
 
-        for _ in start_idx..=end_idx {
-            buf.remove(start_idx);
-        }
-
+        buf.drain(start_idx..=end_idx);
         return Ok(());
     }
 
