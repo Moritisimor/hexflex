@@ -19,19 +19,27 @@ pub fn print_line(byte: u8, idx: usize) {
     println!()
 }
 
-pub fn format_line(byte: u8, idx: usize, buf: &mut String) {
+pub fn format_bytes(bytes: &[u8], buf: &mut String) {
     buf.clear();
+    let mut idx = 0;
 
-    *buf += &format!(
-        "{:#010x}:\t{:#010b}\t|\t{:#04x}\t|\t{}\t",
-        idx, byte, byte, byte
-    );
+    for word in bytes.chunks(8) {
+        *buf += &format!("{:#010x}: ", idx);
+        for byte in word {
+            *buf += &format!("{:#04x} ", byte);
+        }
 
-    if helpers::info::is_probably_printable(byte as char) {
-        *buf += &format!("| ({})", (byte as char));
-    } else if let Some(kind) = helpers::info::is_special_control(byte) {
-        *buf += &format!("| [{}]", kind);
-    };
+        *buf += "|";
+        for byte in word {
+            if helpers::info::is_probably_printable(*byte as char) {
+                buf.push(*byte as char);
+            } else {
+                buf.push('.')
+            }
+        }
 
-    *buf += "\n";
+        *buf += "|";
+        idx += 8;
+        *buf += "\n";
+    }
 }
